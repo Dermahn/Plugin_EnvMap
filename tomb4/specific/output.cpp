@@ -92,6 +92,7 @@ void phd_PutPolygons(short* objptr, long clip)
 	long num;
 	ushort drawbak;
 	bool envmap;
+	float w, h; // new variables
 
 	SetD3DViewMatrix();
 	mesh = (MESH_DATA*)objptr;
@@ -109,8 +110,13 @@ void phd_PutPolygons(short* objptr, long clip)
 
 		envmap_sprite = CustEnvMap(objptr);
 
-		// No changes past this point.
-		// Jump back into original function?
+		// Calculate sprite size to allow for arbitrary sprite sizes. No longer limited to 64x64
+		w = float(envmap_sprite->width >> 8);
+		w /= 2.0F;                                //half the size
+		w /= 256.0F;                            //by the tpage size
+		h = float(envmap_sprite->height >> 8);
+		h /= 2.0F;
+		h /= 256.0F;
 
 		if (GlobalAmbient)
 		{
@@ -173,22 +179,22 @@ void phd_PutPolygons(short* objptr, long clip)
 
 				for (int i = 0; i < 4; i++)
 				{
-					normals[i].x *= 0.125F;
-					normals[i].y *= 0.125F;
-					normals[i].z *= 0.125F;
+					normals[i].x *= w;
+					normals[i].y *= h;
+					normals[i].z *= w;
 				}
 
 				envmap_texture.drawtype = 2;
 				envmap_texture.flag = pTex->flag;
 				envmap_texture.tpage = envmap_sprite->tpage;
-				envmap_texture.u1 = normals[0].x + envmap_sprite->x1 + 0.125F;
-				envmap_texture.v1 = normals[0].y + envmap_sprite->y1 + 0.125F;
-				envmap_texture.u2 = normals[1].x + envmap_sprite->x1 + 0.125F;
-				envmap_texture.v2 = normals[1].y + envmap_sprite->y1 + 0.125F;
-				envmap_texture.u3 = normals[2].x + envmap_sprite->x1 + 0.125F;
-				envmap_texture.v3 = normals[2].y + envmap_sprite->y1 + 0.125F;
-				envmap_texture.u4 = normals[3].x + envmap_sprite->x1 + 0.125F;
-				envmap_texture.v4 = normals[3].y + envmap_sprite->y1 + 0.125F;
+				envmap_texture.u1 = normals[0].x + envmap_sprite->x1 + w;
+				envmap_texture.v1 = normals[0].y + envmap_sprite->y1 + h;
+				envmap_texture.u2 = normals[1].x + envmap_sprite->x1 + w;
+				envmap_texture.v2 = normals[1].y + envmap_sprite->y1 + h;
+				envmap_texture.u3 = normals[2].x + envmap_sprite->x1 + w;
+				envmap_texture.v3 = normals[2].y + envmap_sprite->y1 + h;
+				envmap_texture.u4 = normals[3].x + envmap_sprite->x1 + w;
+				envmap_texture.v4 = normals[3].y + envmap_sprite->y1 + h;
 			}
 
 			if (GlobalAlpha == 0xFF000000)
@@ -260,20 +266,20 @@ void phd_PutPolygons(short* objptr, long clip)
 
 				for (int i = 0; i < 3; i++)
 				{
-					normals[i].x *= 0.125F;
-					normals[i].y *= 0.125F;
-					normals[i].z *= 0.125F;
+					normals[i].x *= w;
+					normals[i].y *= h;
+					normals[i].z *= w;
 				}
 
 				envmap_texture.drawtype = 2;
 				envmap_texture.flag = pTex->flag;
 				envmap_texture.tpage = envmap_sprite->tpage;
-				envmap_texture.u1 = normals[0].x + envmap_sprite->x1 + 0.125F;
-				envmap_texture.v1 = normals[0].y + envmap_sprite->y1 + 0.125F;
-				envmap_texture.u2 = normals[1].x + envmap_sprite->x1 + 0.125F;
-				envmap_texture.v2 = normals[1].y + envmap_sprite->y1 + 0.125F;
-				envmap_texture.u3 = normals[2].x + envmap_sprite->x1 + 0.125F;
-				envmap_texture.v3 = normals[2].y + envmap_sprite->y1 + 0.125F;
+				envmap_texture.u1 = normals[0].x + envmap_sprite->x1 + w;
+				envmap_texture.v1 = normals[0].y + envmap_sprite->y1 + h;
+				envmap_texture.u2 = normals[1].x + envmap_sprite->x1 + w;
+				envmap_texture.v2 = normals[1].y + envmap_sprite->y1 + h;
+				envmap_texture.u3 = normals[2].x + envmap_sprite->x1 + w;
+				envmap_texture.v3 = normals[2].y + envmap_sprite->y1 + h;
 			}
 
 			if (GlobalAlpha == 0xFF000000)
