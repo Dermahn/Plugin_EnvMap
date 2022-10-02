@@ -199,6 +199,7 @@ __declspec(naked) void phd_PutPolygons3()
 	__asm
 	{
 		add esp, 18h
+		mov BYTE PTR [esp + 17h], 1h
 		fld DWORD PTR [esp + 28h]
 		fmul DWORD PTR [w]
 		fstp DWORD PTR [esp + 28h]
